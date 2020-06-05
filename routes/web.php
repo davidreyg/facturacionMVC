@@ -13,10 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/on-boarding', function () {
+    return view('app');
+})->name('install')->middleware('redirect-if-installed');
+
+Route::get('/{vue?}', function () {
+    return view('app');
+})->where('vue', '[\/\w\.-]*')->name('home')->middleware('install');

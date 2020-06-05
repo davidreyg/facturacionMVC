@@ -3,7 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Setting;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 
 class InstallationMiddleware
 {
@@ -16,11 +17,11 @@ class InstallationMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!\Storage::disk('local')->has('database_created')) {
+        if (!Storage::disk('local')->exists('database_created')) {
             return redirect('/on-boarding');
         }
 
-        if (\Storage::disk('local')->has('database_created')) {
+        if (Storage::disk('local')->exists('database_created')) {
             if (Setting::getSetting('profile_complete') !== 'COMPLETED') {
                 return redirect('/on-boarding');
             }
