@@ -42,15 +42,15 @@ Route::group(['middleware' => 'redirect-if-installed'], function () {
         'uses' => 'Onboard\EnvironmentController@saveDatabaseEnvironment'
     ]);
 
-    // Route::get('/admin/onboarding/environment/mail', [
-    //     'as' => 'admin.onboarding.mail',
-    //     'uses' => 'EnvironmentController@getMailDrivers'
-    // ]);
+    Route::get('/admin/onboarding/environment/mail', [
+        'as' => 'admin.onboarding.mail',
+        'uses' => 'Onboard\EnvironmentController@getMailDrivers'
+    ]);
 
-    // Route::post('/admin/onboarding/environment/mail', [
-    //     'as' => 'admin.onboarding.mail',
-    //     'uses' => 'EnvironmentController@saveMailEnvironment'
-    // ]);
+    Route::post('/admin/onboarding/environment/mail', [
+        'as' => 'admin.onboarding.mail',
+        'uses' => 'Onboard\EnvironmentController@saveMailEnvironment'
+    ]);
 
     // Route::post('/admin/onboarding/profile', [
     //     'as' => 'admin.profile',

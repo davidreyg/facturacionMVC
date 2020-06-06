@@ -26,10 +26,7 @@
         <step_3 @next="setTab" />
       </q-step>
       <q-step :name="4" title="Create an ad" icon="add_comment">
-        Try out different ad text to see what brings in the most customers, and
-        learn how to enhance your ads using features like ad extensions. If you
-        run into any problems with your ads, find out how to tell if they're
-        running and how to resolve approval issues.
+        <step_4 @next="setTab" />
       </q-step>
       <q-step :name="5" title="Create an ad" icon="add_comment">
         Try out different ad text to see what brings in the most customers, and
@@ -56,13 +53,14 @@
 import SystemRequirement from "./SystemRequirement";
 import Permission from "./Permission";
 import Database from "./Database";
+import EmailConfiguration from "./EmailConfiguration";
 
 export default {
   components: {
     step_1: SystemRequirement,
     step_2: Permission,
-    step_3: Database
-    // step_4: EmailConfiguration,
+    step_3: Database,
+    step_4: EmailConfiguration
     // step_5: UserProfile,
     // step_6: CompanyInfo,
     // step_7: Settings
@@ -103,7 +101,6 @@ export default {
       }
     },
     setTab(isNext) {
-      console.log(isNext);
       if (isNext) {
         this.$refs.stepper.next();
       } else {

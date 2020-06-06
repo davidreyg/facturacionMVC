@@ -2,7 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 const s = axios.create({
   baseURL: 'http://facturacionmvc.test',
-  timeout: 10000,
   // withCredentials: true,
   headers: {
     // 'Accept': 'application/json',

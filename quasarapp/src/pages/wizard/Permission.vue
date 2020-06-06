@@ -1,14 +1,5 @@
 <template>
   <div class="row fit q-gutter-md">
-    <!-- <div class="col-12">
-      <div class="locale-changer">
-        <select v-model="$i18n.locale">
-          <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{
-            lang
-          }}</option>
-        </select>
-      </div>
-    </div> -->
     <div class="col-auto">
       <div class="text-h5 text-bold">
         {{ $t("wizard.permissions.permissions") }}

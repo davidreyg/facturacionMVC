@@ -1,6 +1,6 @@
 <template>
   <div class="row fit">
-    <div class="col-auto">
+    <div class="col-md-6 col-sm-6 col-xs-12">
       <div class="text-h5 text-bold">
         {{ $t("wizard.database.database") }}
       </div>
@@ -8,11 +8,11 @@
       <div>{{ $t("wizard.database.desc") }}</div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 q-pt-md">
       <ValidationObserver ref="observer">
-        <form @submit.prevent="crearCategoria">
+        <form @submit.prevent="nextStep">
           <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required|url"
                 :name="labelUrlApp"
@@ -20,6 +20,7 @@
               >
                 <q-input
                   outlined
+                  dense
                   v-model.trim="databaseData.app_url"
                   type="text"
                   :label="labelUrlApp"
@@ -29,13 +30,15 @@
                 </q-input>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required"
                 :name="labelConnectionType"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-select
+                  dense
+                  options-dense
                   outlined
                   v-model="databaseData.database_connection"
                   :options="connections"
@@ -46,13 +49,14 @@
                 </q-select>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required|numeric|max:4"
                 :name="labelPort"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
+                  dense
                   outlined
                   v-model.trim="databaseData.database_port"
                   type="text"
@@ -63,13 +67,14 @@
                 </q-input>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required"
                 :name="labelDatabaseName"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
+                  dense
                   outlined
                   v-model.trim="databaseData.database_name"
                   type="text"
@@ -80,13 +85,14 @@
                 </q-input>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required"
                 :name="labelDatabaseUsername"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
+                  dense
                   outlined
                   v-model.trim="databaseData.database_username"
                   type="text"
@@ -97,13 +103,14 @@
                 </q-input>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules=""
                 :name="labelDatabasePassword"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
+                  dense
                   outlined
                   v-model.trim="databaseData.database_password"
                   type="text"
@@ -114,13 +121,14 @@
                 </q-input>
               </ValidationProvider>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-md">
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required"
                 :name="labelDatabaseHost"
                 v-slot="{ errors, invalid, validated }"
               >
                 <q-input
+                  dense
                   outlined
                   v-model.trim="databaseData.database_host"
                   type="text"
@@ -178,37 +186,7 @@ export default {
     };
   },
   methods: {
-    async next() {
-      this.$v.databaseData.$touch();
-      if (this.$v.databaseData.$invalid) {
-        return true;
-      }
-      this.loading = true;
-      try {
-        let response = await window.axios.post(
-          "/api/admin/onboarding/environment/database",
-          this.databaseData
-        );
-        if (response.data.success) {
-          this.$emit("next");
-          window.toastr["success"](
-            this.$t("wizard.success." + response.data.success)
-          );
-          return true;
-        } else if (response.data.error) {
-          window.toastr["error"](
-            this.$t("wizard.errors." + response.data.error)
-          );
-        } else if (response.data.error_message) {
-          window.toastr["error"](response.data.error_message);
-        }
-      } catch (e) {
-        window.toastr["error"](e.response.data.message);
-      } finally {
-        this.loading = false;
-      }
-    },
-    async crearCategoria() {
+    async nextStep() {
       const isValid = await this.$refs.observer.validate();
       if (!isValid) {
         this.$q.notify({
@@ -225,12 +203,12 @@ export default {
           this.databaseData
         );
         if (response.data.success) {
-          this.$emit("next");
           this.$q.notify({
             type: "positive",
             position: "top-right",
             message: this.$t("wizard.success." + response.data.success)
           });
+          this.$emit("next", true);
           return true;
         } else if (response.data.error) {
           this.$q.notify({
@@ -249,8 +227,15 @@ export default {
         this.$q.notify({
           type: "negative",
           position: "top-right",
-          message: e.response.data.message
+          message: e
         });
+        if (e.response.data.message) {
+          this.$q.notify({
+            type: "negative",
+            position: "top-right",
+            message: e.response.data.message
+          });
+        }
       } finally {
         this.loading = false;
       }

@@ -14,7 +14,11 @@ class CreateCompanySettingsTable extends Migration
     public function up()
     {
         Schema::create('company_settings', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->unsigned();
+            $table->string('option');
+            $table->string('value');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }
