@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Currency;
 use Illuminate\Http\Request;
+use App\Models\CompanySetting;
 
-class CurrencyController extends Controller
+class CompanySettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CurrencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Currency  $currency
+     * @param  \App\CompanySetting  $companySetting
      * @return \Illuminate\Http\Response
      */
-    public function show(Currency $currency)
+    public function show(CompanySetting $companySetting)
     {
         //
     }
@@ -52,10 +52,10 @@ class CurrencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Currency  $currency
+     * @param  \App\CompanySetting  $companySetting
      * @return \Illuminate\Http\Response
      */
-    public function edit(Currency $currency)
+    public function edit(CompanySetting $companySetting)
     {
         //
     }
@@ -64,10 +64,10 @@ class CurrencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Currency  $currency
+     * @param  \App\CompanySetting  $companySetting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currency $currency)
+    public function update(Request $request, CompanySetting $companySetting)
     {
         //
     }
@@ -75,10 +75,10 @@ class CurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Currency  $currency
+     * @param  \App\CompanySetting  $companySetting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currency $currency)
+    public function destroy(CompanySetting $companySetting)
     {
         //
     }

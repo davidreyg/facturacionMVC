@@ -25,6 +25,10 @@ Route::get('/on-boarding', function () {
     return view('app');
 })->name('install')->middleware('redirect-if-installed');
 
+// Route::get('/test', function () {
+//     dd(app()->version());
+// });
+
 Route::get('/{vue?}', function () {
     return view('app');
 })->where('vue', '[\/\w\.-]*')->name('home')->middleware('install');

@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        return ($this->role == 'admin');
+    }
+
+
+    public static function login($request)
+    {
+        $remember = $request->remember;
+        $email = $request->email;
+        $password = $request->password;
+        return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
+    }
 }
