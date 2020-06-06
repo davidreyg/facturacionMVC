@@ -839,7 +839,9 @@
       "app_url": "App URL",
       "username": "Database Username",
       "db_name": "Database Name",
-      "desc": "Create a database on your server and set the credentials using the form below."
+      "desc": "Create a database on your server and set the credentials using the form below.",
+      "app_url_error": "The given value must be a valid URL",
+      "database_error": "You may fill the required fields."
     },
     "permissions": {
       "permissions": "Permissions",

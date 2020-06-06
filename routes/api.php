@@ -37,10 +37,10 @@ Route::group(['middleware' => 'redirect-if-installed'], function () {
         'uses' => 'Onboard\PermissionsController@permissions'
     ]);
 
-    // Route::post('/admin/onboarding/environment/database', [
-    //     'as' => 'admin.onboarding.database',
-    //     'uses' => 'EnvironmentController@saveDatabaseEnvironment'
-    // ]);
+    Route::post('/admin/onboarding/environment/database', [
+        'as' => 'admin.onboarding.database',
+        'uses' => 'Onboard\EnvironmentController@saveDatabaseEnvironment'
+    ]);
 
     // Route::get('/admin/onboarding/environment/mail', [
     //     'as' => 'admin.onboarding.mail',

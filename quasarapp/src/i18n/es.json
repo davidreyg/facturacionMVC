@@ -823,7 +823,7 @@
     "continue": "Continuar",
     "skip": "Saltar",
     "database": {
-      "database": "URL del sitio y base de datose",
+      "database": "URL del sitio y base de datos",
       "connection": "Conexión de base de datos",
       "host": "Host de la base de datos",
       "port": "Puerto de la base de datos",
@@ -831,7 +831,9 @@
       "app_url": "URL de la aplicación",
       "username": "Nombre de usuario de la base de datos",
       "db_name": "Nombre de la base de datos",
-      "desc": "Cree una base de datos en su servidor y establezca las credenciales utilizando el siguiente formulario."
+      "desc": "Cree una base de datos en su servidor y establezca las credenciales utilizando el siguiente formulario.",
+      "app_url_error": "El campo URL debe ser una dirección válida",
+      "database_error": "Complete los campos que son obligatorios."
     },
     "permissions": {
       "permissions": "Permisos",

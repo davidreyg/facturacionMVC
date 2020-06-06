@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.14.1 on 2020-06-05 23:32:37.
+ * Generated for Laravel 7.14.1 on 2020-06-06 17:22:32.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1861,20 +1861,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function user()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->user();
-        }
-        
-        /**
-         * Get the token for the current request.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getTokenForRequest()
-        {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
-                        return $instance->getTokenForRequest();
         }
         
         /**
@@ -1886,7 +1874,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function validate($credentials = [])
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->validate($credentials);
         }
         
@@ -1894,12 +1882,12 @@ namespace Illuminate\Support\Facades {
          * Set the current request instance.
          *
          * @param \Illuminate\Http\Request $request
-         * @return \Illuminate\Auth\TokenGuard 
+         * @return \Illuminate\Auth\RequestGuard 
          * @static 
          */ 
         public static function setRequest($request)
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->setRequest($request);
         }
         
@@ -1912,7 +1900,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function authenticate()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->authenticate();
         }
         
@@ -1924,7 +1912,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function hasUser()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->hasUser();
         }
         
@@ -1936,7 +1924,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function check()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->check();
         }
         
@@ -1948,7 +1936,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function guest()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->guest();
         }
         
@@ -1960,7 +1948,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function id()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->id();
         }
         
@@ -1968,12 +1956,12 @@ namespace Illuminate\Support\Facades {
          * Set the current user.
          *
          * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return \Illuminate\Auth\TokenGuard 
+         * @return \Illuminate\Auth\RequestGuard 
          * @static 
          */ 
         public static function setUser($user)
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->setUser($user);
         }
         
@@ -1985,7 +1973,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getProvider()
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         return $instance->getProvider();
         }
         
@@ -1998,8 +1986,47 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setProvider($provider)
         {
-                        /** @var \Illuminate\Auth\TokenGuard $instance */
+                        /** @var \Illuminate\Auth\RequestGuard $instance */
                         $instance->setProvider($provider);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Auth\RequestGuard::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Auth\RequestGuard::mixin($mixin, $replace);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Auth\RequestGuard::hasMacro($name);
         }
          
     }

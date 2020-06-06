@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { localize } from "vee-validate";
+
 export default {
   name: "LayoutWizard",
   data() {
@@ -54,6 +56,8 @@ export default {
     },
     setLanguage(selectedLanguage) {
       this.$i18n.locale = selectedLanguage;
+      // Install and Activate the Arabic locale.
+      localize(selectedLanguage);
     }
   }
 };
