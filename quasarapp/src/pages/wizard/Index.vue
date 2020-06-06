@@ -3,13 +3,13 @@
     <q-stepper v-model="step" ref="stepper" contracted color="primary" animated>
       <q-step
         :name="1"
-        title="Select campaign settings"
+        title="Select settings"
         icon="settings"
         :done="step > 1"
       >
-        For each ad campaign that you create, you can control how much you're
-        willing to spend on clicks and conversions, which networks and
-        geographical locations you want your ads to show on, and more.
+        <div class="q-pa-md row items-center q-gutter-md">
+          <step_1 @next="setTab" />
+        </div>
       </q-step>
 
       <q-step
@@ -19,8 +19,7 @@
         icon="create_new_folder"
         :done="step > 2"
       >
-        An ad group contains one or more ads which target a shared set of
-        keywords.
+        <step_2 @next="setTab" />
       </q-step>
 
       <q-step :name="3" title="Create an ad" icon="add_comment">
@@ -53,33 +52,66 @@
         run into any problems with your ads, find out how to tell if they're
         running and how to resolve approval issues.
       </q-step>
-
-      <template v-slot:navigation>
-        <q-stepper-navigation>
-          <q-btn
-            @click="$refs.stepper.next()"
-            color="primary"
-            :label="step === 7 ? 'Finish' : 'Continue'"
-          />
-          <q-btn
-            v-if="step > 1"
-            flat
-            color="primary"
-            @click="$refs.stepper.previous()"
-            label="Back"
-            class="q-ml-sm"
-          />
-        </q-stepper-navigation>
-      </template>
     </q-stepper>
   </div>
 </template>
 <script>
+import SystemRequirement from "./SystemRequirement";
+import Permission from "./Permission";
+
 export default {
+  components: {
+    step_1: SystemRequirement,
+    step_2: Permission
+    // step_3: Database,
+    // step_4: EmailConfiguration,
+    // step_5: UserProfile,
+    // step_6: CompanyInfo,
+    // step_7: Settings
+  },
   data() {
     return {
-      step: 1
+      step: 1,
+      tab: "step_1"
     };
+  },
+  created() {
+    this.getOnboardingData();
+  },
+  methods: {
+    async getOnboardingData() {
+      let response = await this.$axios.get("/api/admin/onboarding");
+      if (response.data) {
+        if (response.data.profile_complete === "COMPLETED") {
+          this.$router.push("/admin/dashboard");
+
+          return;
+        }
+        let dbStep = parseInt(response.data.profile_complete);
+
+        if (dbStep) {
+          this.step = dbStep + 1;
+          this.tab = `step_${dbStep + 1}`;
+        }
+
+        this.languages = response.data.languages;
+        this.currencies = response.data.currencies;
+        this.dateFormats = response.data.date_formats;
+        this.timeZones = response.data.time_zones;
+
+        // this.settingData.currency = this.currencies.find(currency => currency.id === 1)
+        // this.settingData.language = this.languages.find(language => language.code === 'en')
+        // this.settingData.dateFormat = this.dateFormats.find(dateFormat => dateFormat.value === 'd M Y')
+      }
+    },
+    setTab(isNext) {
+      console.log(isNext);
+      if (isNext) {
+        this.$refs.stepper.next();
+      } else {
+        // window.location.reload()
+      }
+    }
   }
 };
 </script>

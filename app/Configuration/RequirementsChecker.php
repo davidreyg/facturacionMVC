@@ -19,7 +19,7 @@ class RequirementsChecker
      */
     public function check(array $requirements)
     {
-        dd($requirements);
+        // dd($requirements);
         $results = [];
 
         foreach ($requirements as $type => $requirement) {

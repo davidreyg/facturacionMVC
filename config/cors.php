@@ -25,7 +25,7 @@ return [
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['Access-Control-Allow-Origin', 'Access-Control-Allow-Content'],
 
     'max_age' => 0,
 
