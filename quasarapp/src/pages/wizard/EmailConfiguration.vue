@@ -34,6 +34,97 @@
             <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
               <ValidationProvider
                 rules="required"
+                :name="labelHost"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  dense
+                  outlined
+                  v-model.trim="mailConfigData.mail_host"
+                  type="text"
+                  :label="labelHost"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                >
+                </q-input>
+              </ValidationProvider>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
+              <ValidationProvider
+                rules="required"
+                :name="labelUsername"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  dense
+                  outlined
+                  v-model.trim="mailConfigData.mail_username"
+                  type="text"
+                  :label="labelUsername"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                >
+                </q-input>
+              </ValidationProvider>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
+              <ValidationProvider
+                rules="required"
+                :name="labelPassword"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  dense
+                  outlined
+                  v-model.trim="mailConfigData.mail_password"
+                  type="password"
+                  :label="labelPassword"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                >
+                </q-input>
+              </ValidationProvider>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
+              <ValidationProvider
+                rules="required|numeric"
+                :name="labelPort"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-input
+                  dense
+                  outlined
+                  v-model.trim="mailConfigData.mail_port"
+                  type="text"
+                  :label="labelPort"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                >
+                </q-input>
+              </ValidationProvider>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
+              <ValidationProvider
+                rules="required"
+                :name="labelEncryption"
+                v-slot="{ errors, invalid, validated }"
+              >
+                <q-select
+                  dense
+                  options-dense
+                  :options="encryptions"
+                  outlined
+                  v-model.trim="mailConfigData.mail_encryption"
+                  :label="labelEncryption"
+                  :error="invalid && validated"
+                  :error-message="errors[0]"
+                >
+                </q-select>
+              </ValidationProvider>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 q-pa-sm">
+              <ValidationProvider
+                rules="required"
                 :name="labelFromMail"
                 v-slot="{ errors, invalid, validated }"
               >
@@ -103,11 +194,16 @@ export default {
       loading: false,
       mail_drivers: [],
       mailConfigData: {
-        mail_driver: "mail",
+        mail_driver: "",
         mail_host: "",
+        mail_port: null,
+        mail_username: "",
+        mail_password: "",
+        mail_encryption: "tls",
         from_mail: "",
         from_name: ""
-      }
+      },
+      encryptions: ["tls", "ssl", "starttls"]
     };
   },
   created() {
@@ -124,7 +220,16 @@ export default {
         this.loading = false;
       }
     },
-    async next(mailConfigData) {
+    async next() {
+      const isValid = await this.$refs.observer.validate();
+      if (!isValid) {
+        this.$q.notify({
+          type: "negative",
+          position: "top-right",
+          message: this.$t("wizard.errors.mail_variables_save_error")
+        });
+        return;
+      }
       this.loading = true;
       try {
         let response = await this.$axios.post(
@@ -179,6 +284,21 @@ export default {
     },
     labelFromName() {
       return this.$t("wizard.mail.from_name");
+    },
+    labelHost() {
+      return this.$t("wizard.mail.host");
+    },
+    labelUsername() {
+      return this.$t("wizard.mail.username");
+    },
+    labelPassword() {
+      return this.$t("wizard.mail.password");
+    },
+    labelPort() {
+      return this.$t("wizard.mail.port");
+    },
+    labelEncryption() {
+      return this.$t("wizard.mail.encryption");
     }
   }
 };

@@ -6,6 +6,8 @@
         title="Select settings"
         icon="settings"
         :done="step > 1"
+        done-color="positive"
+        active-color="light-green-3 "
       >
         <div class="q-pa-md row items-center q-gutter-md">
           <step_1 @next="setTab" />
@@ -18,29 +20,66 @@
         caption="Optional"
         icon="create_new_folder"
         :done="step > 2"
+        done-color="positive"
+        active-color="light-green-3 "
       >
         <step_2 @next="setTab" />
       </q-step>
 
-      <q-step :name="3" title="Create an ad" icon="add_comment">
+      <q-step
+        :name="3"
+        title="Create an ad"
+        icon="add_comment"
+        :done="step > 3"
+        done-color="positive"
+        active-color="light-green-3 "
+      >
         <step_3 @next="setTab" />
       </q-step>
-      <q-step :name="4" title="Create an ad" icon="add_comment">
+      <q-step
+        :name="4"
+        title="Create an ad"
+        icon="add_comment"
+        :done="step > 4"
+        done-color="positive"
+        active-color="light-green-3 "
+      >
         <step_4 @next="setTab" />
       </q-step>
-      <q-step :name="5" title="Create an ad" icon="add_comment">
+      <q-step
+        :name="5"
+        title="Create an ad"
+        icon="add_comment"
+        :done="step > 5"
+        done-color="positive"
+        active-color="light-green-3 "
+      >
         Try out different ad text to see what brings in the most customers, and
         learn how to enhance your ads using features like ad extensions. If you
         run into any problems with your ads, find out how to tell if they're
         running and how to resolve approval issues.
       </q-step>
-      <q-step :name="6" title="Create an ad" icon="add_comment">
+      <q-step
+        :name="6"
+        title="Create an ad"
+        icon="add_comment"
+        :done="step > 6"
+        done-color="positive"
+        active-color="light-green-3 "
+      >
         Try out different ad text to see what brings in the most customers, and
         learn how to enhance your ads using features like ad extensions. If you
         run into any problems with your ads, find out how to tell if they're
         running and how to resolve approval issues.
       </q-step>
-      <q-step :name="7" title="Create an ad" icon="add_comment">
+      <q-step
+        :name="7"
+        title="Create an ad"
+        icon="add_comment"
+        :done="step > 7"
+        done-color="positive"
+        active-color="light-green-3 "
+      >
         Try out different ad text to see what brings in the most customers, and
         learn how to enhance your ads using features like ad extensions. If you
         run into any problems with your ads, find out how to tell if they're

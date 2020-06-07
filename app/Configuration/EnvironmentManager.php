@@ -99,10 +99,11 @@ class EnvironmentManager
         $mailData = $this->getMailData($request);
 
         try {
-
             file_put_contents($this->envPath, str_replace(
                 $mailData['old_mail_data'],
                 $mailData['new_mail_data'],
+                // "MAIL_MAILER=smtp\nMAIL_HOST=smtp.mailtrap.io",
+                // "MAIL_MAILER=asd\nMAIL_HOST=asd.mailtrap.io",
                 file_get_contents($this->envPath)
             ));
 
@@ -140,46 +141,45 @@ class EnvironmentManager
 
         if (env('MAIL_FROM_ADDRESS') !== NULL && env('MAIL_FROM_NAME') !== NULL) {
             $mailFromCredential =
-                'MAIL_FROM_ADDRESS=' . config('mail.from.address') . "\n" .
-                'MAIL_FROM_NAME="' . config('mail.from.name') . "\"\n\n";
+                "MAIL_FROM_ADDRESS=" . env('MAIL_FROM_ADDRESS') . "\n" .
+                "MAIL_FROM_NAME='" . env('MAIL_FROM_NAME') . "'\n";
         }
 
         switch ($request->mail_driver) {
             case 'smtp':
 
                 $oldMailData =
-                    'MAIL_DRIVER=' . config('mail.driver') . "\n" .
-                    'MAIL_HOST=' . config('mail.host') . "\n" .
-                    'MAIL_PORT=' . config('mail.port') . "\n" .
-                    'MAIL_USERNAME=' . config('mail.username') . "\n" .
-                    'MAIL_PASSWORD=' . config('mail.password') . "\n" .
-                    'MAIL_ENCRYPTION=' . config('mail.encryption') . "\n\n" .
+                    "MAIL_MAILER=" . env('MAIL_MAILER') . "\n" .
+                    "MAIL_HOST=" . env('MAIL_HOST') . "\n" .
+                    "MAIL_PORT=" . env('MAIL_PORT') . "\n" .
+                    "MAIL_USERNAME=" . env('MAIL_USERNAME') . "\n" .
+                    "MAIL_PASSWORD=" . env('MAIL_PASSWORD') . "\n" .
+                    "MAIL_ENCRYPTION=" . env('MAIL_ENCRYPTION') . "\n" .
                     $mailFromCredential;
 
                 $newMailData =
-                    'MAIL_DRIVER=' . $request->mail_driver . "\n" .
-                    'MAIL_HOST=' . $request->mail_host . "\n" .
-                    'MAIL_PORT=' . $request->mail_port . "\n" .
-                    'MAIL_USERNAME=' . $request->mail_username . "\n" .
-                    'MAIL_PASSWORD=' . $request->mail_password . "\n" .
-                    'MAIL_ENCRYPTION=' . $request->mail_encryption . "\n\n" .
-                    'MAIL_FROM_ADDRESS=' . $request->from_mail . "\n" .
-                    'MAIL_FROM_NAME="' . $request->from_name . "\"\n\n";
-
+                    "MAIL_MAILER=" . $request->mail_driver . "\n" .
+                    "MAIL_HOST=" . $request->mail_host . "\n" .
+                    "MAIL_PORT=" . $request->mail_port . "\n" .
+                    "MAIL_USERNAME=" . $request->mail_username . "\n" .
+                    "MAIL_PASSWORD=" . $request->mail_password . "\n" .
+                    "MAIL_ENCRYPTION=" . $request->mail_encryption . "\n" .
+                    "MAIL_FROM_ADDRESS=" . $request->from_mail . "\n" .
+                    "MAIL_FROM_NAME='" . $request->from_name .  "'\n";
                 break;
 
             case 'mailgun':
                 $oldMailData =
-                    'MAIL_DRIVER=' . config('mail.driver') . "\n" .
+                    'MAIL_MAILER=' . config('mail.driver') . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
                     'MAIL_PASSWORD=' . config('mail.password') . "\n" .
-                    'MAIL_ENCRYPTION=' . config('mail.encryption') . "\n\n" .
+                    'MAIL_ENCRYPTION=' . config('mail.encryption') . "\n" .
                     $mailFromCredential;
 
                 $newMailData =
-                    'MAIL_DRIVER=' . $request->mail_driver . "\n" .
+                    'MAIL_MAILER=' . $request->mail_driver . "\n" .
                     'MAIL_HOST=' . $request->mail_host . "\n" .
                     'MAIL_PORT=' . $request->mail_port . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -204,7 +204,7 @@ class EnvironmentManager
 
             case 'ses':
                 $oldMailData =
-                    'MAIL_DRIVER=' . config('mail.driver') . "\n" .
+                    'MAIL_MAILER=' . config('mail.driver') . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -213,7 +213,7 @@ class EnvironmentManager
                     $mailFromCredential;
 
                 $newMailData =
-                    'MAIL_DRIVER=' . $request->mail_driver . "\n" .
+                    'MAIL_MAILER=' . $request->mail_driver . "\n" .
                     'MAIL_HOST=' . $request->mail_host . "\n" .
                     'MAIL_PORT=' . $request->mail_port . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -236,7 +236,7 @@ class EnvironmentManager
 
             case 'mail':
                 $oldMailData =
-                    'MAIL_DRIVER=' . config('mail.driver') . "\n" .
+                    'MAIL_MAILER=' . config('mail.driver') . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -245,7 +245,7 @@ class EnvironmentManager
                     $mailFromCredential;
 
                 $newMailData =
-                    'MAIL_DRIVER=' . $request->mail_driver . "\n" .
+                    'MAIL_MAILER=' . $request->mail_driver . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -258,7 +258,7 @@ class EnvironmentManager
 
             case 'sendmail':
                 $oldMailData =
-                    'MAIL_DRIVER=' . config('mail.driver') . "\n" .
+                    'MAIL_MAILER=' . config('mail.driver') . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -267,7 +267,7 @@ class EnvironmentManager
                     $mailFromCredential;
 
                 $newMailData =
-                    'MAIL_DRIVER=' . $request->mail_driver . "\n" .
+                    'MAIL_MAILER=' . $request->mail_driver . "\n" .
                     'MAIL_HOST=' . config('mail.host') . "\n" .
                     'MAIL_PORT=' . config('mail.port') . "\n" .
                     'MAIL_USERNAME=' . config('mail.username') . "\n" .
@@ -280,8 +280,8 @@ class EnvironmentManager
         }
 
         return [
-            'old_mail_data' => $oldMailData,
-            'new_mail_data' => $newMailData,
+            "old_mail_data" => $oldMailData,
+            "new_mail_data" => $newMailData,
             'extra_mail_data' => $extraMailData,
             'extra_old_mail_data' => $extraOldMailData
         ];

@@ -26,7 +26,7 @@ Route::get('/on-boarding', function () {
 })->name('install')->middleware('redirect-if-installed');
 
 // Route::get('/test', function () {
-//     dd(app()->version());
+//     echo "MAIL_MAILER=smtp\nMAIL_HOST=asd\nMAIL_PORT=123\nMAIL_USERNAME=asd\nMAIL_PASSWORD=asd\nMAIL_ENCRYPTION=tls\nMAIL_FROM_ADDRESS=asd\nMAIL_FROM_NAME='asd'\n";
 // });
 
 Route::get('/{vue?}', function () {
