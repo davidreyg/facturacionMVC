@@ -54,10 +54,7 @@
         done-color="positive"
         active-color="light-green-3 "
       >
-        Try out different ad text to see what brings in the most customers, and
-        learn how to enhance your ads using features like ad extensions. If you
-        run into any problems with your ads, find out how to tell if they're
-        running and how to resolve approval issues.
+        <div class="row"></div>
       </q-step>
       <q-step
         :name="6"
@@ -93,14 +90,15 @@ import SystemRequirement from "./SystemRequirement";
 import Permission from "./Permission";
 import Database from "./Database";
 import EmailConfiguration from "./EmailConfiguration";
+import UserProfile from "./UserProfile";
 
 export default {
   components: {
     step_1: SystemRequirement,
     step_2: Permission,
     step_3: Database,
-    step_4: EmailConfiguration
-    // step_5: UserProfile,
+    step_4: EmailConfiguration,
+    step_5: UserProfile
     // step_6: CompanyInfo,
     // step_7: Settings
   },
@@ -145,6 +143,10 @@ export default {
       } else {
         // window.location.reload()
       }
+    },
+    probando() {
+      alert();
+      console.log(this.$refs.pond.getFiles());
     }
   }
 };

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class DateFormatter
 {
-    protected static $formats = [
+    protected static $dateFormats = [
         [
             "carbon_format" => "Y M d",
             "moment_format" => "YYYY MMM DD"
@@ -41,18 +41,18 @@ class DateFormatter
         ],
     ];
 
-    public static function get_list()
+    public static function getListofDateFormats()
     {
-        $new = [];
+        $dateFormatList = [];
 
-        foreach (static::$formats as $format) {
-            $new[] = array(
-                "display_date" => Carbon::now()->format($format['carbon_format']),
-                "carbon_format_value" => $format['carbon_format'],
-                "moment_format_value" => $format['moment_format']
+        foreach (static::$dateFormats as $dateFormat) {
+            $dateFormatList[] = array(
+                "display_date" => Carbon::now()->format($dateFormat['carbon_format']),
+                "carbon_format_value" => $dateFormat['carbon_format'],
+                "moment_format_value" => $dateFormat['moment_format']
             );
         }
 
-        return $new;
+        return $dateFormatList;
     }
 }

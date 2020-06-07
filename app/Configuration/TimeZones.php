@@ -4,7 +4,7 @@ namespace App\Configuration;
 
 class TimeZones
 {
-    public static function get_list()
+    public static function getListofTimezones()
     {
         return [
             ['value' => 'Pacific/Midway', 'key' => '(UTC-11:00) Midway'],

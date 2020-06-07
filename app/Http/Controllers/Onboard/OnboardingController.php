@@ -19,6 +19,9 @@ class OnboardingController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
+    // Obtiene los datos actuales de nuestra aplicacion cuando estamos
+    // haciendo los pasos respectivos al crearlo.
     public function getOnboardingData(Request $request)
     {
         if (!\Storage::disk('local')->exists('database_created')) {
@@ -29,14 +32,16 @@ class OnboardingController extends Controller
 
         $setting = Setting::getSetting('profile_complete');
 
+        // Si la configuracion es igual a 'COMPLETED' quiere decir
+        // que y completamos los pasos;
         if ($setting !== 'COMPLETED' && $setting < 4) {
             return response()->json([
                 'profile_complete' => $setting
             ]);
         }
 
-        $date_formats = DateFormatter::get_list();
-        $time_zones = TimeZones::get_list();
+        $date_formats = DateFormatter::getListofDateFormats();
+        $time_zones = TimeZones::getListofTimezones();
         $languages = [
             ["code" => "ar", "name" => "Arabic"],
             ["code" => "en", "name" => "English"],

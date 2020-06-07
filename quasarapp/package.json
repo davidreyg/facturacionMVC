@@ -17,6 +17,7 @@
     "quasar": "^1.0.0",
     "validator": "^13.0.0",
     "vee-validate": "^3.3.2",
+    "vue-file-agent": "^1.7.3",
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {

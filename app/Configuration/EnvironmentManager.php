@@ -14,14 +14,14 @@ class EnvironmentManager
     /**
      * @var string
      */
-    private $envPath;
+    private $enviromentPath;
 
     /**
      * Set the .env and .env.example paths.
      */
     public function __construct()
     {
-        $this->envPath = base_path('.env');
+        $this->enviromentPath = base_path('.env');
     }
 
     /**
@@ -30,9 +30,11 @@ class EnvironmentManager
      * @param DatabaseEnvironmentRequest $request
      * @return array
      */
+
+    //Sobreescribir las variables de configuracion de Base de Datos de Laravel!
     public function saveDatabaseVariables(DatabaseEnvironmentRequest $request)
     {
-        $oldDatabaseData =
+        $oldDatabaseConfiguration =
             'DB_CONNECTION=' . config('database.default') . "\n" .
             'DB_HOST=' . config('database.connections.' . config('database.default') . '.host') . "\n" .
             'DB_PORT=' . config('database.connections.' . config('database.default') . '.port') . "\n" .
@@ -40,7 +42,7 @@ class EnvironmentManager
             'DB_USERNAME=' . config('database.connections.' . config('database.default') . '.username') . "\n" .
             'DB_PASSWORD="' . config('database.connections.' . config('database.default') . '.password') . "\"\n\n";
 
-        $newDatabaseData =
+        $newDatabaseConfiguration =
             'DB_CONNECTION=' . $request->database_connection . "\n" .
             'DB_HOST=' . $request->database_hostname . "\n" .
             'DB_PORT=' . $request->database_port . "\n" .
@@ -48,8 +50,8 @@ class EnvironmentManager
             'DB_USERNAME=' . $request->database_username . "\n" .
             'DB_PASSWORD="' . $request->database_password . "\"\n\n";
 
+        // Comprobar si existe conexion y si tiene la tabla Users!
         try {
-
             $this->checkDatabaseConnection($request);
 
             if (\Schema::hasTable('users')) {
@@ -63,19 +65,20 @@ class EnvironmentManager
                 'error_message' => $e->getMessage()
             ];
         }
-
+        //Sobreescribir la configuracion de la Base de datos y
+        // APP_URL en el archivo .env.
         try {
 
-            file_put_contents($this->envPath, str_replace(
-                $oldDatabaseData,
-                $newDatabaseData,
-                file_get_contents($this->envPath)
+            file_put_contents($this->enviromentPath, str_replace(
+                $oldDatabaseConfiguration,
+                $newDatabaseConfiguration,
+                file_get_contents($this->enviromentPath)
             ));
 
-            file_put_contents($this->envPath, str_replace(
+            file_put_contents($this->enviromentPath, str_replace(
                 'APP_URL=' . config('app.url'),
                 'APP_URL=' . $request->app_url,
-                file_get_contents($this->envPath)
+                file_get_contents($this->enviromentPath)
             ));
         } catch (Exception $e) {
             return [
@@ -94,28 +97,31 @@ class EnvironmentManager
      * @param Request $request
      * @return array
      */
+
+
+    //Sobreescribir las variables de configuracion de Mail de Laravel!
     public function saveMailVariables(MailEnvironmentRequest $request)
     {
         $mailData = $this->getMailData($request);
 
+        //Sobreescribir la configuracion del Mail segun haya sido el DRIVER
+        // del MAIL en el archivo .env.
         try {
-            file_put_contents($this->envPath, str_replace(
+            file_put_contents($this->enviromentPath, str_replace(
                 $mailData['old_mail_data'],
                 $mailData['new_mail_data'],
-                // "MAIL_MAILER=smtp\nMAIL_HOST=smtp.mailtrap.io",
-                // "MAIL_MAILER=asd\nMAIL_HOST=asd.mailtrap.io",
-                file_get_contents($this->envPath)
+                file_get_contents($this->enviromentPath)
             ));
 
             if ($mailData['extra_old_mail_data']) {
-                file_put_contents($this->envPath, str_replace(
+                file_put_contents($this->enviromentPath, str_replace(
                     $mailData['extra_old_mail_data'],
                     $mailData['extra_mail_data'],
-                    file_get_contents($this->envPath)
+                    file_get_contents($this->enviromentPath)
                 ));
             } else {
                 file_put_contents(
-                    $this->envPath,
+                    $this->enviromentPath,
                     "\n" . $mailData['extra_mail_data'],
                     FILE_APPEND
                 );
@@ -288,7 +294,7 @@ class EnvironmentManager
     }
 
     /**
-     *
+     * Comprobar conexion a la base de datos
      * @param DatabaseEnvironmentRequest $request
      * @return bool
      */
