@@ -4,7 +4,9 @@ import Vuex from 'vuex'
 import * as getters from './getters'
 import mutations from './mutations.js'
 import actions from './actions'
-// import example from './module-example'
+
+//ONBOARD
+import userProfile from './modules/onBoard/profileSetting'
 
 Vue.use(Vuex)
 
@@ -28,7 +30,7 @@ export default function (/* { ssrContext } */) {
     mutations,
     actions,
     modules: {
-      // example
+      userProfile
     },
 
     // enable strict mode (adds overhead!)

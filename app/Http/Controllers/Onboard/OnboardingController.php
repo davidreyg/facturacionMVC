@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Configuration\TimeZones;
 use App\Configuration\DateFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProfileRequest;
 
 class OnboardingController extends Controller
 {
@@ -67,7 +68,6 @@ class OnboardingController extends Controller
             ['key' => 'december-november', 'value' => '12-11'],
         ];
         $user = User::with([
-            'addresses',
             'company'
         ])->find(1);
 
@@ -79,6 +79,72 @@ class OnboardingController extends Controller
             'time_zones' => $time_zones,
             'fiscal_years' => $fiscal_years,
             'currencies' => Currency::all()
+        ]);
+        // if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
+        //     $producto->addMediaFromRequest('imagen')->toMediaCollection();
+        // }
+    }
+
+    /**
+     * Setup Admin Profile.
+     *
+     * @param  \Crater\Http\Requests\ProfileRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function adminProfile(ProfileRequest $request)
+    {
+        $setting = Setting::getSetting('profile_complete');
+
+        if ($setting == '1' || $setting == 'COMPLETED') {
+            return response()->json(['error' => 'Profile already created.']);
+        } else {
+            Setting::setSetting('profile_complete', 5);
+        }
+
+        $user = User::find(1);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Setup Admin Avatar.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadAdminAvatar(Request $request)
+    {
+        $setting = Setting::getSetting('profile_complete');
+
+        if ($setting == '1' || $setting == 'COMPLETED') {
+            return response()->json(['error' => 'Profile already created.']);
+        }
+        $data = json_decode($request->admin_avatar);
+
+        if ($data) {
+            $user = User::find($data->id);
+            if ($user) {
+                $user->clearMediaCollection('admin_avatar');
+
+                $user->addMediaFromBase64($data->data)
+                    ->usingFileName($data->name)
+                    ->toMediaCollection('admin_avatar');
+            }
+        }
+
+        return response()->json([
+            'user' => $user,
+            'success' => true
         ]);
     }
 }

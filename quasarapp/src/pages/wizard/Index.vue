@@ -54,7 +54,9 @@
         done-color="positive"
         active-color="light-green-3 "
       >
-        <div class="row"></div>
+        <div class="row">
+          <step_5></step_5>
+        </div>
       </q-step>
       <q-step
         :name="6"

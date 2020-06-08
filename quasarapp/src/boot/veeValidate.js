@@ -1,6 +1,6 @@
 import { ValidationProvider, extend, localize } from 'vee-validate'
 // eslint-disable-next-line camelcase
-import { required, length, min, max, max_value, numeric } from 'vee-validate/dist/rules'
+import { required, length, min, max, max_value, numeric, is } from 'vee-validate/dist/rules'
 import es from 'vee-validate/dist/locale/es.json'
 import en from 'vee-validate/dist/locale/en.json';
 import utils from '../utils/utilities';
@@ -19,6 +19,7 @@ export default ({ Vue }) => {
   extend('max', max)
   extend('numeric', numeric)
   extend('max_value', max_value)
+  extend('is', is)
   extend('url', {
     validate: urlFixRule,
   })

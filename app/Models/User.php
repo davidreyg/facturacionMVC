@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Spatie\MediaLibrary\HasMedia;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +20,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'company_id',
+        'password',
+        'facebook_id',
+        'google_id',
+        'github_id',
+        'group_id'
+    ];
+
+    protected $appends = [
+        'formattedCreatedAt',
+        'avatar'
     ];
 
     /**
@@ -43,7 +58,6 @@ class User extends Authenticatable
         return ($this->role == 'admin');
     }
 
-
     public static function login($request)
     {
         $remember = $request->remember;
@@ -51,4 +65,24 @@ class User extends Authenticatable
         $password = $request->password;
         return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
     }
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+        return Carbon::parse($this->created_at)->format($dateFormat);
+    }
+
+    public function getAvatarAttribute()
+    {
+        $avatar = $this->getMedia('admin_avatar')->first();
+        if ($avatar) {
+            return  asset($avatar->getUrl());
+        }
+        return;
+    }
+
+     public function company()
+    {
+        return $this->belongsTo(Company::class);
+    } 
 }

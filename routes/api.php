@@ -52,10 +52,10 @@ Route::group(['middleware' => 'redirect-if-installed'], function () {
         'uses' => 'Onboard\EnvironmentController@saveMailEnvironment'
     ]);
 
-    // Route::post('/admin/onboarding/profile', [
-    //     'as' => 'admin.profile',
-    //     'uses' => 'OnboardingController@adminProfile'
-    // ]);
+    Route::post('/admin/onboarding/profile', [
+        'as' => 'admin.profile',
+        'uses' => 'Onboard\OnboardingController@adminProfile'
+    ]);
 
     // Route::post('/admin/profile/upload-avatar', [
     //     'as' => 'admin.on_boarding.avatar',
