@@ -26,7 +26,27 @@ Route::get('/on-boarding', function () {
 })->name('install')->middleware('redirect-if-installed');
 
 // Route::get('/test', function () {
-//     echo "MAIL_MAILER=smtp\nMAIL_HOST=asd\nMAIL_PORT=123\nMAIL_USERNAME=asd\nMAIL_PASSWORD=asd\nMAIL_ENCRYPTION=tls\nMAIL_FROM_ADDRESS=asd\nMAIL_FROM_NAME='asd'\n";
+//     $oldDatabaseConfiguration =
+//             "DB_CONNECTION=" . config("database.default") . "\n" .
+//             "DB_HOST=" . config("database.connections." . config("database.default") . ".host") . "\n" .
+//             "DB_PORT=" . config("database.connections." . config("database.default") . ".port") . "\n" .
+//             "DB_DATABASE=" . config("database.connections." . config("database.default") . ".database") . "\n" .
+//             "DB_USERNAME=" . config("database.connections." . config("database.default") . ".username") . "\n" .
+//             "DB_PASSWORD='" . config("database.connections." . config("database.default") . ".password") . "'\n";
+
+//         $newDatabaseConfiguration =
+//             'DB_CONNECTION=' . 'hola mundo ctm' . "\n" ;
+//             // 'DB_HOST=' . $request->database_hostname . "\n" .
+//             // 'DB_PORT=' . $request->database_port . "\n" .
+//             // 'DB_DATABASE=' . $request->database_name . "\n" .
+//             // 'DB_USERNAME=' . $request->database_username . "\n" .
+//             // 'DB_PASSWORD="' . $request->database_password . "\"\n\n";
+
+//             file_put_contents(base_path('.env'), str_replace(
+//                 $oldDatabaseConfiguration,
+//                 $newDatabaseConfiguration,
+//                 file_get_contents(base_path('.env'))
+//             ));
 // });
 
 Route::get('/{vue?}', function () {
