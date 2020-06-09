@@ -39,8 +39,8 @@ class ResetApp extends Command
     public function handle()
     {
         if ($this->confirm('Do you wish to continue? This will delete your tables')) {
+            Artisan::call('media-library:clear --force');
             Artisan::call('migrate:reset --force');
-
             \Storage::disk('local')->delete('database_created');
 
             // $file = new Filesystem;

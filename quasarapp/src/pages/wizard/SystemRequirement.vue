@@ -102,7 +102,7 @@ export default {
     async getRequirements() {
       this.loading = true;
 
-      let response = await this.$axios.get(
+      let response = await this.axios.get(
         "/api/admin/onboarding/requirements"
       );
       console.log(response.data);

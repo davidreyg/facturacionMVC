@@ -130,7 +130,7 @@
                 <q-input
                   dense
                   outlined
-                  v-model.trim="databaseData.database_host"
+                  v-model.trim="databaseData.database_hostname"
                   type="text"
                   :label="labelDatabaseHost"
                   :error="invalid && validated"
@@ -198,7 +198,7 @@ export default {
       }
       this.loading = true;
       try {
-        let response = await this.$axios.post(
+        let response = await this.axios.post(
           "/api/admin/onboarding/environment/database",
           this.databaseData
         );

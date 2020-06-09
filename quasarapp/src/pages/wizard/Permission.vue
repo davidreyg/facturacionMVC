@@ -64,7 +64,7 @@ export default {
   methods: {
     async getPermissions() {
       this.loading = true;
-      let response = await this.$axios.get(
+      let response = await this.axios.get(
         "/api/admin/onboarding/permissions",
         this.profileData
       );

@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
+// Country, State & City
+//----------------------------------
+
+Route::get('/countries', [
+    'as' => 'countries',
+    'uses' => 'LocationController@getCountries'
+]);
+
+
 // Onboarding
 //----------------------------------
 Route::group(['middleware' => 'redirect-if-installed'], function () {
@@ -57,23 +67,23 @@ Route::group(['middleware' => 'redirect-if-installed'], function () {
         'uses' => 'Onboard\OnboardingController@adminProfile'
     ]);
 
-    // Route::post('/admin/profile/upload-avatar', [
-    //     'as' => 'admin.on_boarding.avatar',
-    //     'uses' => 'OnboardingController@uploadAdminAvatar'
-    // ]);
+    Route::post('/admin/profile/upload-avatar', [
+        'as' => 'admin.on_boarding.avatar',
+        'uses' => 'Onboard\OnboardingController@uploadAdminAvatar'
+    ]);
 
-    // Route::post('/admin/onboarding/company', [
-    //     'as' => 'admin.company',
-    //     'uses' => 'OnboardingController@adminCompany'
-    // ]);
+    Route::post('/admin/onboarding/company', [
+        'as' => 'admin.company',
+        'uses' => 'Onboard\OnboardingController@adminCompany'
+    ]);
 
-    // Route::post('/admin/onboarding/company/upload-logo', [
-    //     'as' => 'upload.admin.company.logo',
-    //     'uses' => 'CompanyController@uploadCompanyLogo'
-    // ]);
+    Route::post('/admin/onboarding/company/upload-logo', [
+        'as' => 'upload.admin.company.logo',
+        'uses' => 'Onboard\OnboardingController@uploadCompanyLogo'
+    ]);
 
-    // Route::post('/admin/onboarding/settings', [
-    //     'as' => 'admin.settings',
-    //     'uses' => 'OnboardingController@companySettings'
-    // ]);
+    Route::post('/admin/onboarding/settings', [
+        'as' => 'admin.settings',
+        'uses' => 'Onboard\OnboardingController@companySettings'
+    ]);
 });

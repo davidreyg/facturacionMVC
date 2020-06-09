@@ -212,7 +212,7 @@ export default {
   methods: {
     async getMailDrivers() {
       this.loading = true;
-      let response = await this.$axios.get(
+      let response = await this.axios.get(
         "/api/admin/onboarding/environment/mail"
       );
       if (response.data) {
@@ -232,7 +232,7 @@ export default {
       }
       this.loading = true;
       try {
-        let response = await this.$axios.post(
+        let response = await this.axios.post(
           "/api/admin/onboarding/environment/mail",
           this.mailConfigData
         );

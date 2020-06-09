@@ -54,9 +54,7 @@
         done-color="positive"
         active-color="light-green-3 "
       >
-        <div class="row">
-          <step_5></step_5>
-        </div>
+        <step_5  @next="setTab"></step_5>
       </q-step>
       <q-step
         :name="6"
@@ -66,10 +64,7 @@
         done-color="positive"
         active-color="light-green-3 "
       >
-        Try out different ad text to see what brings in the most customers, and
-        learn how to enhance your ads using features like ad extensions. If you
-        run into any problems with your ads, find out how to tell if they're
-        running and how to resolve approval issues.
+        <step_6  @next="setTab"></step_6>
       </q-step>
       <q-step
         :name="7"
@@ -79,10 +74,7 @@
         done-color="positive"
         active-color="light-green-3 "
       >
-        Try out different ad text to see what brings in the most customers, and
-        learn how to enhance your ads using features like ad extensions. If you
-        run into any problems with your ads, find out how to tell if they're
-        running and how to resolve approval issues.
+        <step_7  @next="setTab"></step_7>
       </q-step>
     </q-stepper>
   </div>
@@ -93,6 +85,8 @@ import Permission from "./Permission";
 import Database from "./Database";
 import EmailConfiguration from "./EmailConfiguration";
 import UserProfile from "./UserProfile";
+import CompanyProfile from "./CompanyProfile";
+import GeneralSetting from "./GeneralSetting";
 
 export default {
   components: {
@@ -100,9 +94,9 @@ export default {
     step_2: Permission,
     step_3: Database,
     step_4: EmailConfiguration,
-    step_5: UserProfile
-    // step_6: CompanyInfo,
-    // step_7: Settings
+    step_5: UserProfile,
+    step_6: CompanyProfile,
+    step_7: GeneralSetting
   },
   data() {
     return {
@@ -115,7 +109,7 @@ export default {
   },
   methods: {
     async getOnboardingData() {
-      let response = await this.$axios.get("/api/admin/onboarding");
+      let response = await this.axios.get("/api/admin/onboarding");
       if (response.data) {
         if (response.data.profile_complete === "COMPLETED") {
           this.$router.push("/admin/dashboard");
@@ -145,10 +139,6 @@ export default {
       } else {
         // window.location.reload()
       }
-    },
-    probando() {
-      alert();
-      console.log(this.$refs.pond.getFiles());
     }
   }
 };

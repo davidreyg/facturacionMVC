@@ -99,7 +99,7 @@ module.exports = function (/* ctx */) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: ['QSelect', 'QUploader'],
+      components: ['QSelect', 'QUploader', 'QFile'],
       directives: [],
 
       // Quasar plugins

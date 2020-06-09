@@ -14,7 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        /*ADD THIS LINES*/
+        $this->commands([
+            \Laravel\Passport\Console\InstallCommand::class,
+            \Laravel\Passport\Console\KeysCommand::class,
+            \Laravel\Passport\Console\ClientCommand::class,
+        ]);
     }
 
     /**

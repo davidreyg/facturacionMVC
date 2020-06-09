@@ -24,4 +24,13 @@ class Company extends Model implements HasMedia
     {
         return $this->hasMany(CompanySetting::class);
     }
+
+    public function getLogoAttribute()
+    {
+        $logo = $this->getMedia('logo')->first();
+        if ($logo) {
+            return  asset($logo->getUrl());
+        }
+        return ;
+    }
 }
