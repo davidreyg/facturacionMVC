@@ -32,6 +32,7 @@ class OnboardingController extends Controller
     // haciendo los pasos respectivos al crearlo.
     public function getOnboardingData(Request $request)
     {
+        // return "asd";
         if (!\Storage::disk('local')->exists('database_created')) {
             return response()->json([
                 'profile_complete' => '0'

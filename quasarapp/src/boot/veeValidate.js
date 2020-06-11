@@ -3,7 +3,7 @@ import { ValidationProvider, extend, localize } from 'vee-validate'
 import { required, length, min, max, max_value, numeric, is, email } from 'vee-validate/dist/rules'
 import es from 'vee-validate/dist/locale/es.json'
 import en from 'vee-validate/dist/locale/en.json';
-import utils from '../utils/utilities';
+import utils from '../core/utils/utilities';
 
 
 // "async" is optional;

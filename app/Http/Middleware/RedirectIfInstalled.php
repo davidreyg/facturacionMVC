@@ -18,7 +18,7 @@ class RedirectIfInstalled
     {
         if (\Storage::disk('local')->exists('database_created')) {
             if (Setting::getSetting('profile_complete') === 'COMPLETED') {
-                return redirect('login');
+                return redirect('auth');
             }
         }
         return $next($request);

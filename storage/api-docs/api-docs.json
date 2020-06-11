@@ -1,0 +1,71 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "FacturaloYa",
+        "description": "Sistema de facturacion en linea. Con carrito de compras",
+        "contact": {
+            "email": "neisserrey@upeu.edu.pe"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://facturacionmvc.test/api/",
+            "description": "Documentacion de la Facturacion en Linea"
+        }
+    ],
+    "paths": {
+        "/categories": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Mostrar categorias",
+                "operationId": "App\\Http\\Controllers\\Category\\CategoryController::index",
+                "responses": {
+                    "401": {
+                        "description": "Inserta tu token pues hermano!"
+                    },
+                    "200": {
+                        "description": "Lista de categorias. Correcto"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "properties": {
+                    "name": {
+                        "description": "Nombre de la categoria",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descripcion de la categoria",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "http",
+                "description": "Authorization token obtained from logging in.",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

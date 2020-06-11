@@ -14,10 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Authentication & Password Reset
+//----------------------------------
 
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::post('login', 'Auth\AccessTokensController@store');
+    Route::get('logout', 'Auth\AccessTokensController@destroy');
+    Route::post('refresh_token', 'Auth\AccessTokensController@update');
+    Route::get('user', 'Auth\AccessTokensController@me');
+    // Send reset password mail
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
+    // handle reset password form process
+    Route::post('reset/password', 'Auth\ResetPasswordController@reset');
+
+});
 
 // Country, State & City
 //----------------------------------
@@ -26,6 +38,9 @@ Route::get('/countries', [
     'as' => 'countries',
     'uses' => 'LocationController@getCountries'
 ]);
+
+Route::resource('categories', 'Category\CategoryController');
+
 
 
 // Onboarding

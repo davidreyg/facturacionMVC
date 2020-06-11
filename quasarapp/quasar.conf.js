@@ -6,8 +6,8 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
-
-module.exports = function (/* ctx */) {
+const path = require('path')
+module.exports = function ( ctx ) {
   return {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
@@ -26,8 +26,16 @@ module.exports = function (/* ctx */) {
       'i18n',
       'axios',
       'veeValidate',
-      'filePond'
+      'filePond',
+      'vueAuth'
     ],
+
+    sourceFiles: {
+      rootComponent: 'src/core/App.vue',
+      router: 'src/core/router',
+      store: 'src/core/store',
+      indexHtmlTemplate: 'src/core/index.template.html'
+    },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
@@ -64,6 +72,15 @@ module.exports = function (/* ctx */) {
       // gzip: true,
       // analyze: true,
 
+      env: ctx.dev
+      ? {
+        // so on dev we'll have
+        BASE_API_URL: JSON.stringify('http://facturaloya.test/api')
+      }
+      : {
+        // and on build (production):
+        BASE_API_URL: JSON.stringify('https://facturaciondingo.herokuapp.com/api')
+      },
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
 
@@ -75,6 +92,13 @@ module.exports = function (/* ctx */) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // Add your own alias like this
+          core: path.resolve(__dirname, './src/core'),
+          modules: path.resolve(__dirname, './src/modules')
+        }
       },
     },
 

@@ -25,10 +25,10 @@ return [
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => ['Access-Control-Allow-Origin', 'Access-Control-Allow-Content'],
+    'exposed_headers' => ['Access-Control-Allow-Origin', 'Access-Control-Allow-Content', 'Authorization'],
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
