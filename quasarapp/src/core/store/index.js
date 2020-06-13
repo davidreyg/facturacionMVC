@@ -22,14 +22,13 @@ Vue.use(Vuex)
  * with the Store instance.
  */
 
-const initialState = {
-  isAppLoaded: false,
-  token: localStorage.getItem('token_API_FACTURACION')
-}
 
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
-    state: initialState,
+    state: {
+      isAppLoaded: false,
+      token: localStorage.getItem('token_API_FACTURACION')
+    },
     getters,
     mutations,
     actions,

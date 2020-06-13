@@ -6,18 +6,20 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use App\Http\Repositories\CategoryRepository;
+use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Requests\Category\CreateCategoryRequest;
 
 class CategoryController extends ApiController
 {
 
         /** @var  CategoryRepository */
-        private $categoryRepository;
+    private $categoryRepository;
 
-        public function __construct(CategoryRepository $categoriaRepo)
-        {
-            $this->categoryRepository = $categoriaRepo;
-        }
+    public function __construct(CategoryRepository $categoriaRepo)
+    {
+        $this->categoryRepository = $categoriaRepo;
+    }
     /**
        * @OA\Get(
        *     path="/categories",
@@ -44,47 +46,172 @@ class CategoryController extends ApiController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/categories",
+     *     tags={"categories"},
+     *     operationId="store",
+     *     summary="Agregar una nueva categoria.",
+     *     @OA\RequestBody(
+     *         description="Categoria a ser creada",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Category")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Inserta tu token pues hermano!",
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Creado",
+     *     ),
+     *     security={
+     *         {"bearer": {}}
+     *     }
+     * )
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        //
+        $campos = $request->validated();
+        $categoria = $this->categoryRepository->create($campos);
+
+        return $this->showOne(new CategoryResource($categoria), 201);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
+      * @OA\Get(
+      *     path="/categories/{categoryId}",
+      *     summary="Buscar categoria por ID",
+      *     description="Retorna una sola categoria",
+      *     operationId="show",
+      *     tags={"categories"},
+      *     @OA\Parameter(
+      *         description="ID de la categoria a retornar",
+      *         in="path",
+      *         name="categoryId",
+      *         required=true,
+      *         @OA\Schema(
+      *           type="integer",
+      *           format="int64"
+      *         )
+      *     ),
+      *     @OA\Response(
+      *         response=200,
+      *         description="successful operation",
+      *         @OA\JsonContent(ref="#/components/schemas/Category")
+      *     ),
+      *     @OA\Response(
+      *         response=401,
+      *         description="Inserta tu token pues hermano!",
+      *     ),
+      *     @OA\Response(
+      *         response="404",
+      *         description="Categoria no existe"
+      *     ),
+      *     security={
+      *       {"bearer": {}}
+      *     }
+      * )
+      */
     public function show(Category $category)
     {
-        //
+        return $this->showOne(new CategoryResource($category), 200);
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
+      * @OA\Put(
+      *     path="/category/{categoryId}",
+      *     tags={"category"},
+      *     operationId="update",
+      *     summary="Actualizar una categoria existente",
+      *     description="",
+      *     @OA\RequestBody(
+      *         required=true,
+      *         description="Categoria a ser actualizada",
+      *         @OA\JsonContent(ref="#/components/schemas/Category")
+      *     ),
+      *     @OA\Parameter(
+      *         description="ID de la categoria a actualizar",
+      *         in="path",
+      *         name="categoryId",
+      *         required=true,
+      *         @OA\Schema(
+      *           type="integer",
+      *           format="int64"
+      *         )
+      *     ),
+      *     @OA\Response(
+      *         response=404,
+      *         description="Categoria no encontrada",
+      *     ),
+      *     @OA\Response(
+      *         response=401,
+      *         description="Inserta tu token pues hermano!",
+      *     ),
+      *     @OA\Response(
+      *         response="200",
+      *         description="Categoria actualizada correctamente"
+      *     ),
+      *     security={
+      *       {"bearer": {}}
+      *     }
+      * )
+      */
+    public function update(CreateCategoryRequest $request, Category $category)
     {
-        //
+        $campos = $request->validated();
+
+        $category = $this->categoryRepository->update($campos, $category);
+
+        return $this->showOne(new CategoryResource($category), 200);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/categories/{categoryId}",
+     *     summary="Elimina una categoria",
+     *     description="",
+     *     operationId="delete",
+     *     tags={"categories"},
+     *     @OA\Parameter(
+     *         description="Id de la categoria a eliminar",
+     *         in="path",
+     *         name="categoryId",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Categoria no encontrada",
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Inserta tu token pues hermano!",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Tiene productos relacionados",
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Categoria eliminada correctamente"
+     *     ),
+     *     security={
+     *       {"bearer": {}}
+     *     }
+     * )
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category->productos()->count()) {
+            return $this->errorResponse("Esta category tiene productos relacionados", 403);
+        }
+
+        $category->delete();
+
+        return $this->showOne(new CategoryResource($category), 200);
     }
 }

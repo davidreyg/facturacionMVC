@@ -1,13 +1,7 @@
 <template>
   <q-header elevated class="bg-primary text-white">
     <q-toolbar>
-      <q-btn
-        dense
-        flat
-        round
-        icon="menu"
-        @click="$emit('leftDrawer',!left)"
-      />
+      <q-btn dense flat round icon="menu" @click="$emit('left-drawer', !left)" />
 
       <q-toolbar-title>
         <q-avatar>

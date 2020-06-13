@@ -27,7 +27,8 @@ module.exports = function ( ctx ) {
       'axios',
       'veeValidate',
       'filePond',
-      'vueAuth'
+      'vueAuth',
+      'sweetAlert2'
     ],
 
     sourceFiles: {

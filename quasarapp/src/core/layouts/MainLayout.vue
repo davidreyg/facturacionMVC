@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fff">
-    <app-header :left="left" @leftDrawer="isleftDrawer"></app-header>
+    <app-header :left="left" @left-drawer="isleftDrawer"></app-header>
     <app-left-drawer :left="left"></app-left-drawer>
 
     <q-page-container>

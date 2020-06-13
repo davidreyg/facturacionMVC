@@ -4,6 +4,8 @@ import LayoutWizard from 'core/layouts/LayoutWizard.vue'
 import Wizard from 'core/pages/wizard/Index.vue'
 import store from '../store'
 
+import categoryRoutes from 'modules/category/routes'
+
 const beforeEnter = (to, from, next) => {
   // console.log(store().state)
   if (store().state.token) {
@@ -22,11 +24,7 @@ const routes = [
     meta: { auth: true },
     children: [
       { path: '', component: () => import('core/pages/Index.vue') },
-      {
-        path: 'categories',
-        name: 'categories',
-        component: () => import('modules/category/pages/Index.vue'),
-      }
+      categoryRoutes
     ]
   },
 

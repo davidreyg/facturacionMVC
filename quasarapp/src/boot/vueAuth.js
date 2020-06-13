@@ -27,7 +27,7 @@ export default ({ Vue, router }) => {
       url: 'api/auth/login',
       method: 'POST'
     },
-    userData: {
+    fetchData: {
       url: 'api/auth/user',
       method: 'GET'
     },

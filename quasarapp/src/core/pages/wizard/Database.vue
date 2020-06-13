@@ -2,10 +2,10 @@
   <div class="row fit">
     <div class="col-md-6 col-sm-6 col-xs-12">
       <div class="text-h5 text-bold">
-        {{ $t("wizard.database.database") }}
+        {{ $t('wizard.database.database') }}
       </div>
       <q-separator spaced />
-      <div>{{ $t("wizard.database.desc") }}</div>
+      <div>{{ $t('wizard.database.desc') }}</div>
     </div>
 
     <div class="col-12 q-pt-md">
@@ -16,7 +16,7 @@
               <ValidationProvider
                 rules="required|url"
                 :name="labelUrlApp"
-                v-slot="{ errors, invalid, validated }"
+                v-slot="{ invalid, validated }"
               >
                 <q-input
                   outlined
@@ -146,7 +146,7 @@
                 type="submit"
                 :loading="loading"
               >
-                {{ $t("wizard.save_cont") }}
+                {{ $t('wizard.save_cont') }}
               </q-btn>
             </div>
           </div>
@@ -157,109 +157,108 @@
 </template>
 
 <script>
-import { ValidationObserver } from "vee-validate";
+import { ValidationObserver } from 'vee-validate'
 
 export default {
-  name: "Database",
+  name: 'Database',
   components: { ValidationObserver },
   data() {
     return {
       databaseData: {
-        database_connection: "mysql",
-        database_hostname: "127.0.0.1",
-        database_port: "3306",
+        database_connection: 'mysql',
+        database_hostname: '127.0.0.1',
+        database_port: '3306',
         database_name: null,
         database_username: null,
         database_password: null,
         app_url: window.location.origin
       },
       loading: false,
-      connections: ["sqlite", "mysql", "pgsql", "sqlsrv"]
-    };
+      connections: ['sqlite', 'mysql', 'pgsql', 'sqlsrv']
+    }
   },
   methods: {
     async nextStep() {
-      const isValid = await this.$refs.observer.validate();
+      const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         this.$q.notify({
-          type: "negative",
-          position: "top-right",
-          message: this.$t("wizard.database.database_error")
-        });
-        return;
+          type: 'negative',
+          position: 'top-right',
+          message: this.$t('wizard.database.database_error')
+        })
+        return
       }
-      this.loading = true;
+      this.loading = true
       try {
         let response = await this.axios.post(
-          "/api/admin/onboarding/environment/database",
+          '/api/admin/onboarding/environment/database',
           this.databaseData
-        );
+        )
         if (response.data.success) {
           this.$q.notify({
-            type: "positive",
-            position: "top-right",
-            message: this.$t("wizard.success." + response.data.success)
-          });
-          this.$emit("next", true);
-          return true;
+            type: 'positive',
+            position: 'top-right',
+            message: this.$t('wizard.success.' + response.data.success)
+          })
+          this.$emit('next', true)
+          return true
         } else if (response.data.error) {
           this.$q.notify({
-            type: "negative",
-            position: "top-right",
-            message: this.$t("wizard.errors." + response.data.error)
-          });
+            type: 'negative',
+            position: 'top-right',
+            message: this.$t('wizard.errors.' + response.data.error)
+          })
         } else if (response.data.error_message) {
           this.$q.notify({
-            type: "negative",
-            position: "top-right",
+            type: 'negative',
+            position: 'top-right',
             message: response.data.error_message
-          });
+          })
         }
       } catch (e) {
         this.$q.notify({
-          type: "negative",
-          position: "top-right",
+          type: 'negative',
+          position: 'top-right',
           message: e
-        });
+        })
         if (e.response.data.message) {
           this.$q.notify({
-            type: "negative",
-            position: "top-right",
+            type: 'negative',
+            position: 'top-right',
             message: e.response.data.message
-          });
+          })
         }
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     }
   },
   computed: {
     labelUrlApp() {
-      return `${this.$t("wizard.database.app_url")} (*)`;
+      return `${this.$t('wizard.database.app_url')} (*)`
     },
     labelConnectionType() {
-      return `${this.$t("wizard.database.connection")} (*)`;
+      return `${this.$t('wizard.database.connection')} (*)`
     },
     labelPort() {
-      return `${this.$t("wizard.database.port")} (*)`;
+      return `${this.$t('wizard.database.port')} (*)`
     },
     errorUrlApp() {
-      return this.$t("wizard.database.app_url_error");
+      return this.$t('wizard.database.app_url_error')
     },
     labelDatabaseName() {
-      return `${this.$t("wizard.database.db_name")} (*)`;
+      return `${this.$t('wizard.database.db_name')} (*)`
     },
     labelDatabaseUsername() {
-      return `${this.$t("wizard.database.username")} (*)`;
+      return `${this.$t('wizard.database.username')} (*)`
     },
     labelDatabasePassword() {
-      return `${this.$t("wizard.database.password")} (*)`;
+      return `${this.$t('wizard.database.password')} (*)`
     },
     labelDatabaseHost() {
-      return this.$t("wizard.database.host");
+      return this.$t('wizard.database.host')
     }
   }
-};
+}
 </script>
-<style>
-</style>
+<style></style>

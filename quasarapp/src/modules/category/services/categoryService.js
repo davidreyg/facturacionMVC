@@ -1,12 +1,12 @@
 import Service from 'core/services/Service'
-const resource = '/categories'
+const resource = '/api/categories'
 export default {
   get () {
     return  Service.get(`${resource}`)
   },
 
   getOne (categoriaId) {
-    return  Service.get(`${resource}`, categoriaId)
+    return  Service.get(`${resource}/${categoriaId}`)
   },
 
   create (categoria) {
@@ -17,6 +17,6 @@ export default {
   },
 
   destroy (categoria) {
-    return Service.delete(`${resource}`, categoria)
+    return Service.delete(`${resource}/${categoria}`)
   }
 }

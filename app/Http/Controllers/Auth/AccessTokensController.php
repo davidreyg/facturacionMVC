@@ -64,7 +64,7 @@ class AccessTokensController extends Controller
 
 		return $this->requestPasswordGrant($request);
     }
-    
+
     /**
 	 * Create a new access token from a password grant client.
 	 *
@@ -92,7 +92,7 @@ class AccessTokensController extends Controller
 
 		return response($response->getContent(), $response->getStatusCode());
     }
-    
+
 
 
 	/**
@@ -120,7 +120,7 @@ class AccessTokensController extends Controller
 			true
 		)->header('Authorization', $data->access_token);
 	}
-	
+
 
 	/**
 	 * Refresh an access token.
@@ -130,6 +130,7 @@ class AccessTokensController extends Controller
 	 */
 	public function update(Request $request)
 	{
+        return "xd";
 		$token = $request->cookie('refresh_token');
 
 		if (!$token) {
@@ -161,7 +162,7 @@ class AccessTokensController extends Controller
     {
         return response()->json(['data' => auth()->user()]);
 	}
-	
+
 	/**
      * Remove the specified resource from storage.
      *

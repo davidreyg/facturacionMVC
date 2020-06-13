@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-    v-model="left"
+    v-model="leftData"
     side="left"
     elevated
     :mini="miniState"
@@ -81,7 +81,15 @@ export default {
   props: ['left'],
   data() {
     return {
-      miniState: false
+      miniState: false,
+    }
+  },
+  computed: {
+    leftData: {
+      get: function() {
+        return this.left
+      },
+      set: function() {}
     }
   }
 }

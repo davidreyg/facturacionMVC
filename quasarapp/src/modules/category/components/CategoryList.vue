@@ -3,9 +3,9 @@
     dense
     :grid="$q.screen.xs"
     title="Categorias"
-    :data="getCategorias"
+    :data="getCategories"
     :columns="columns"
-    row-key="name"
+    row-key="id"
     :filter="filter"
     :loading="loading"
     :visible-columns="visibleColumns"
@@ -30,7 +30,7 @@
             color="primary"
             label="Nuevo"
             icon="add"
-            @click="openModalCrear(true)"
+            @click="newCategory(true)"
           >
             <q-tooltip content-class="bg-accent">Nueva categoria</q-tooltip>
           </q-btn>
@@ -63,7 +63,7 @@
           icon="edit"
           no-caps
           dense
-          @click="fetchOneCategoria(props.row.id)"
+          @click="editCategory(props.row.id)"
         />
         <q-btn
           outline
@@ -100,7 +100,7 @@
                     icon="edit"
                     no-caps
                     dense
-                    @click="fetchOneCategoria(props.row.id)"
+                    @click="editCategory(props.row.id)"
                   />
                   <q-btn
                     outline
@@ -125,8 +125,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'CategoriaList',
-  data () {
+  name: 'CategoryList',
+  data() {
     return {
       loading: false,
       filter: '',
@@ -139,48 +139,66 @@ export default {
           field: 'id',
           sortable: true
         },
-        { name: 'name', align: 'center', label: 'name', field: 'name', sortable: true, required: true },
-        { name: 'description', align: 'center', label: 'Description', field: 'description', sortable: true },
+        {
+          name: 'name',
+          align: 'center',
+          label: 'name',
+          field: 'name',
+          sortable: true,
+          required: true
+        },
+        {
+          name: 'description',
+          align: 'center',
+          label: 'Description',
+          field: 'description',
+          sortable: true
+        },
         { name: 'action', align: 'center', label: 'Opciones', field: 'action' }
       ]
     }
   },
-  async created () {
+  async created() {
     this.loading = true
-    this.$q.loading.show({
-      delay: 400 // ms
-    })
-    await this.fetchCategorias()
+    await this.fetchCategories()
     this.loading = false
-    this.$q.loading.hide()
   },
   methods: {
     // listarCategorias();
-    ...mapActions('categoria', ['fetchCategorias']),
-    ...mapActions('categoria', ['fetchOneCategoria']),
-    ...mapActions('categoria', ['openModalCrear']),
-    ...mapActions('categoria', ['deleteCategoria']),
-    eliminarCategoria (categoria) {
+    ...mapActions('category', ['fetchCategories']),
+
+    // ...mapActions('categoria', ['openModalCrear']),
+    ...mapActions('category', ['deleteCategory']),
+    eliminarCategoria(categoria) {
       // console.log(categoria)
-      this.$swal.fire({
-        title: `¿Esta seguro de eliminar la categoria ${categoria.nombre}?`,
-        html: '<span style="color:red">¡No podra revertir esta acción!</span>',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, seguro!'
-      }).then((confirmado) => {
-        if (confirmado.value) {
-          this.deleteCategoria(categoria)
-        }
-      })
+      this.$swal
+        .fire({
+          title: `¿Esta seguro de eliminar la categoria ${categoria.name}?`,
+          html:
+            '<span style="color:red">¡No podra revertir esta acción!</span>',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Si, seguro!'
+        })
+        .then(confirmado => {
+          if (confirmado.value) {
+            this.deleteCategory(categoria)
+          }
+        })
+    },
+    newCategory() {
+      this.$router.push({ name: 'categories.create' })
+    },
+    editCategory(id) {
+      this.$router.push({ name: 'categories.edit', params: { id: id } })
     }
   },
   computed: {
     // LET CATEGORIAS
-    ...mapGetters('categoria', ['getCategorias'])
+    ...mapGetters('category', ['getCategories'])
   }
 }
 </script>
